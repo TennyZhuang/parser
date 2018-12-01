@@ -528,6 +528,7 @@ import (
 	nulleq		"<=>"
 	paramMarker	"?"
 	rsh		">>"
+	lua		"Lua"
 
 %token not2
 
@@ -3606,6 +3607,9 @@ FunctionNameConflict:
 |	"WEEK"
 |	"YEAR"
 
+FunctionNameLua:
+	"Lua" 
+
 OptionalBraces:
 	{} | '(' ')' {}
 
@@ -3623,6 +3627,11 @@ FunctionNameDatetimePrecision:
 |	"UTC_TIMESTAMP"
 
 FunctionCallKeyword:
+	FunctionNameLua '(' identifier ',' ExpressionListOpt ')'
+	{
+		$$ = &ast.FuncCallExpr{FnName: model.NewCIStr("lua" + $3), Args: $5.[]ast.ExprNode)}
+	}
+|
 	FunctionNameConflict '(' ExpressionListOpt ')'
 	{
 		$$ = &ast.FuncCallExpr{FnName: model.NewCIStr($1), Args: $3.([]ast.ExprNode)}
