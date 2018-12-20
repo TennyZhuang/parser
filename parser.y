@@ -3629,7 +3629,7 @@ FunctionNameDatetimePrecision:
 FunctionCallKeyword:
 	FunctionNameLua '(' identifier ',' ExpressionListOpt ')'
 	{
-		$$ = &ast.FuncCallExpr{FnName: model.NewCIStr("lua" + $3), Args: $5.[]ast.ExprNode)}
+		$$ = &ast.FuncCallExpr{FnName: model.NewCIStr("lua" + $3), Args: $5.([]ast.ExprNode)}
 	}
 |
 	FunctionNameConflict '(' ExpressionListOpt ')'
